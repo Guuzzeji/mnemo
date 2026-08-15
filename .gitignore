@@ -1,7 +1,14 @@
 # Local build artifact
-/mnemo
+.memory-mcp/mnemo
 
 # Mnemo runtime binaries (rebuildable; keep them out of the repo)
 .memory-mcp/index.db
+.memory-mcp/index.db-shm
+.memory-mcp/index.db-wal
 .memory-mcp/models/
 .memory-mcp/server.log
+.sisyphus/
+
+# Local MCP client configs (machine-specific paths); commit the .example files instead
+.mcp.json
+opencode.json

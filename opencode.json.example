@@ -3,7 +3,7 @@
   "mcp": {
     "mnemo": {
       "type": "local",
-      "command": ["/Users/guzzji/repos/ai-shared-memory/mnemo"],
+      "command": ["mnemo"],
       "enabled": true
     }
   }
