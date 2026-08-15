@@ -37,7 +37,7 @@ func main() {
 func run(args []string, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("mnemo", flag.ContinueOnError)
 	fs.SetOutput(stderr)
-	initFlag := fs.Bool("init", false, "scaffold .memory_config.yaml and .memory-mcp/ directory, then exit")
+	initFlag := fs.Bool("init", false, "scaffold .memory_config.yaml and .mnemo/ directory, then exit")
 	reindex := fs.Bool("reindex", false, "wipe the index and replay the entire log")
 	configPath := fs.String("config", ".memory_config.yaml", "path to config file")
 	if err := fs.Parse(args); err != nil {

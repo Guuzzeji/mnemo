@@ -35,13 +35,13 @@ func (f *fakeEmbedder) Embed(text string) ([]float32, error) {
 func (f *fakeEmbedder) CountTokens(text string) int { return len(text) / 4 }
 
 const testConfig = `system:
-  log_file: .memory-mcp/memory_log.jsonl
-  docs_dir: .memory-mcp/docs
+  log_file: .mnemo/memory_log.jsonl
+  docs_dir: .mnemo/docs
 database:
-  path: .memory-mcp/index.db
+  path: .mnemo/index.db
 embeddings:
   model_repo: onnx-community/embeddinggemma-300m-ONNX
-  model_path: .memory-mcp/models/embeddinggemma-300m.onnx
+  model_path: .mnemo/models/embeddinggemma-300m.onnx
   dimensions: 768
   search_top_k: 5
   chunking:
@@ -72,24 +72,24 @@ func newEnv(t *testing.T) *testEnv {
 	if err := os.WriteFile(cfgPath, []byte(testConfig), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.MkdirAll(filepath.Join(dir, ".memory-mcp/docs"), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Join(dir, ".mnemo/docs"), 0o755); err != nil {
 		t.Fatal(err)
 	}
 	cfg, err := config.Load(cfgPath)
 	if err != nil {
 		t.Fatal(err)
 	}
-	log, err := logstore.New(filepath.Join(dir, ".memory-mcp/memory_log.jsonl"))
+	log, err := logstore.New(filepath.Join(dir, ".mnemo/memory_log.jsonl"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	docsStore, err := docs.New(filepath.Join(dir, ".memory-mcp/docs"), cfg.Taxonomy.AllowedCategories)
+	docsStore, err := docs.New(filepath.Join(dir, ".mnemo/docs"), cfg.Taxonomy.AllowedCategories)
 	if err != nil {
 		t.Fatal(err)
 	}
 	embed := &fakeEmbedder{dims: cfg.Embeddings.Dimensions}
 	chunker := chunking.New(cfg.Embeddings.Chunking.SplitOn, cfg.Embeddings.Chunking.MaxChunkTokens, cfg.Embeddings.Chunking.OverlapTokens, embed)
-	idx, err := index.Open(filepath.Join(dir, ".memory-mcp/index.db"), cfg.Embeddings.Dimensions)
+	idx, err := index.Open(filepath.Join(dir, ".mnemo/index.db"), cfg.Embeddings.Dimensions)
 	if err != nil {
 		t.Fatal(err)
 	}

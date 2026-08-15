@@ -11,9 +11,9 @@ agent working in your repo a shared, searchable memory of decisions — stored
 **inside the repository**, reviewed in PRs, and semantically searchable. No
 cloud, no external database.
 
-- **Source of truth:** a Git-tracked JSONL log (`.memory-mcp/memory_log.jsonl`)
-- **Human-readable projection:** a Markdown tree (`.memory-mcp/docs/`)
-- **Search index:** a disposable SQLite `vec0` index (`.memory-mcp/index.db`,
+- **Source of truth:** a Git-tracked JSONL log (`.mnemo/memory_log.jsonl`)
+- **Human-readable projection:** a Markdown tree (`.mnemo/docs/`)
+- **Search index:** a disposable SQLite `vec0` index (`.mnemo/index.db`,
   gitignored, rebuilt from the log)
 - **Embeddings:** local EmbeddingGemma 300M (ONNX, gitignored, downloads on
   first boot) — zero CGO, works offline after download
@@ -22,23 +22,23 @@ cloud, no external database.
 
 ```sh
 # 1. Build the server binary into your project (gitignored)
-go build -o .memory-mcp/mnemo .
+go build -o .mnemo/mnemo .
 
-# 2. Scaffold config + .memory-mcp/ in your repo (appends gitignore entries)
-.memory-mcp/mnemo --init
+# 2. Scaffold config + .mnemo/ in your repo (appends gitignore entries)
+.mnemo/mnemo --init
 
 # 3. Register in your MCP client (project-scoped .mcp.json):
-#    { "mcpServers": { "mnemo": { "command": ".memory-mcp/mnemo", "args": [] } } }
+#    { "mcpServers": { "mnemo": { "command": ".mnemo/mnemo", "args": [] } } }
 
 # 4. Run the MCP server over stdio
-.memory-mcp/mnemo
+.mnemo/mnemo
 ```
 
 Prefer a release binary or `go install github.com/Guuzzeji/ai-shared-memory@latest`
 (installs as `ai-shared-memory`)? See [setup.md](setup.md).
 
 On first boot the embedding model downloads from Hugging Face to
-`.memory-mcp/models/`. If the model is unavailable the server starts in
+`.mnemo/models/`. If the model is unavailable the server starts in
 degraded mode: `semantic_search` reports the index unavailable, while
 `append_memory` still writes to the log.
 
@@ -55,13 +55,13 @@ degraded mode: `semantic_search` reports the index unavailable, while
 | Path                           | Contents                  | Git     |
 | ------------------------------ | ------------------------- | ------- |
 | `.memory_config.yaml`          | Central config            | Commit  |
-| `.memory-mcp/memory_log.jsonl` | Append-only audit log     | Commit  |
-| `.memory-mcp/docs/`            | Markdown memory documents | Commit  |
-| `.memory-mcp/index.db`         | Semantic search index     | Ignored |
-| `.memory-mcp/index.db-shm`     | SQLite WAL shared memory  | Ignored |
-| `.memory-mcp/index.db-wal`     | SQLite WAL journal        | Ignored |
-| `.memory-mcp/mnemo`            | The executable binary     | Ignored |
-| `.memory-mcp/models/`          | Embedding model           | Ignored |
+| `.mnemo/memory_log.jsonl` | Append-only audit log     | Commit  |
+| `.mnemo/docs/`            | Markdown memory documents | Commit  |
+| `.mnemo/index.db`         | Semantic search index     | Ignored |
+| `.mnemo/index.db-shm`     | SQLite WAL shared memory  | Ignored |
+| `.mnemo/index.db-wal`     | SQLite WAL journal        | Ignored |
+| `.mnemo/mnemo`            | The executable binary     | Ignored |
+| `.mnemo/models/`          | Embedding model           | Ignored |
 
 `mnemo --init` appends the ignore entries to your `.gitignore` automatically
 (including the WAL sidecars, the binary, and `.sisyphus/`).
@@ -76,7 +76,7 @@ degraded mode: `semantic_search` reports the index unavailable, while
 | `list_memories`   | List memory docs                                                                                                                           |
 | `reindex`         | Wipe the semantic index and rebuild it by replaying the entire memory log                                                                  |
 
-Logging goes to a local file (`.memory-mcp/server.log`), never to MCP — the
+Logging goes to a local file (`.mnemo/server.log`), never to MCP — the
 MCP logging feature is deprecated in the 2026-07-28 spec and stdout is
 reserved for the stdio protocol.
 
@@ -84,7 +84,7 @@ reserved for the stdio protocol.
 
 | Flag        | Description                                                                  |
 | ----------- | ---------------------------------------------------------------------------- |
-| `--init`    | Scaffold `.memory_config.yaml` and `.memory-mcp/`, update `.gitignore`, exit |
+| `--init`    | Scaffold `.memory_config.yaml` and `.mnemo/`, update `.gitignore`, exit |
 | `--reindex` | Wipe the index and replay the entire log                                     |
 | `--config`  | Path to config file (default `.memory_config.yaml`)                          |
 
@@ -96,7 +96,7 @@ reserved for the stdio protocol.
 ## Build & test
 
 ```sh
-CGO_ENABLED=0 go build -o .memory-mcp/mnemo .
+CGO_ENABLED=0 go build -o .mnemo/mnemo .
 CGO_ENABLED=0 go test ./...
 ```
 

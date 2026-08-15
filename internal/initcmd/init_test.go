@@ -35,7 +35,7 @@ func TestRun_CreatesMemoryDirs(t *testing.T) {
 		t.Fatalf("Run() failed: %v", err)
 	}
 
-	for _, d := range []string{".memory-mcp", ".memory-mcp/docs"} {
+	for _, d := range []string{".mnemo", ".mnemo/docs"} {
 		info, err := os.Stat(filepath.Join(dir, d))
 		if os.IsNotExist(err) {
 			t.Errorf("directory %s not created", d)
@@ -57,23 +57,23 @@ func TestRun_AppendsGitignore(t *testing.T) {
 	}
 
 	content := string(data)
-	if !strings.Contains(content, ".memory-mcp/index.db") {
-		t.Error(".gitignore missing .memory-mcp/index.db")
+	if !strings.Contains(content, ".mnemo/index.db") {
+		t.Error(".gitignore missing .mnemo/index.db")
 	}
-	if !strings.Contains(content, ".memory-mcp/index.db-shm") {
-		t.Error(".gitignore missing .memory-mcp/index.db-shm")
+	if !strings.Contains(content, ".mnemo/index.db-shm") {
+		t.Error(".gitignore missing .mnemo/index.db-shm")
 	}
-	if !strings.Contains(content, ".memory-mcp/index.db-wal") {
-		t.Error(".gitignore missing .memory-mcp/index.db-wal")
+	if !strings.Contains(content, ".mnemo/index.db-wal") {
+		t.Error(".gitignore missing .mnemo/index.db-wal")
 	}
-	if !strings.Contains(content, ".memory-mcp/models/") {
-		t.Error(".gitignore missing .memory-mcp/models/")
+	if !strings.Contains(content, ".mnemo/models/") {
+		t.Error(".gitignore missing .mnemo/models/")
 	}
-	if !strings.Contains(content, ".memory-mcp/mnemo") {
-		t.Error(".gitignore missing .memory-mcp/mnemo")
+	if !strings.Contains(content, ".mnemo/mnemo") {
+		t.Error(".gitignore missing .mnemo/mnemo")
 	}
-	if !strings.Contains(content, ".memory-mcp/server.log") {
-		t.Error(".gitignore missing .memory-mcp/server.log")
+	if !strings.Contains(content, ".mnemo/server.log") {
+		t.Error(".gitignore missing .mnemo/server.log")
 	}
 	if !strings.Contains(content, ".sisyphus/") {
 		t.Error(".gitignore missing .sisyphus/")
@@ -95,15 +95,15 @@ func TestRun_Idempotent_NoDuplicateGitignore(t *testing.T) {
 	content := string(data)
 
 	// Exact line matches — substring counting is wrong because
-	// ".memory-mcp/index.db" is a prefix of the -shm/-wal entries.
+	// ".mnemo/index.db" is a prefix of the -shm/-wal entries.
 	lines := strings.Split(content, "\n")
 	for _, want := range []string{
-		".memory-mcp/index.db",
-		".memory-mcp/index.db-shm",
-		".memory-mcp/index.db-wal",
-		".memory-mcp/models/",
-		".memory-mcp/mnemo",
-		".memory-mcp/server.log",
+		".mnemo/index.db",
+		".mnemo/index.db-shm",
+		".mnemo/index.db-wal",
+		".mnemo/models/",
+		".mnemo/mnemo",
+		".mnemo/server.log",
 		".sisyphus/",
 	} {
 		n := 0

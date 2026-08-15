@@ -17,13 +17,13 @@ Everything lives in your repo. No cloud, no external database.
 | Path | Contents | Git |
 |------|----------|-----|
 | `.memory_config.yaml` | Central config (paths, taxonomy, model) | **Commit** |
-| `.memory-mcp/memory_log.jsonl` | Source of truth — append-only audit log | **Commit** |
-| `.memory-mcp/docs/` | Human-readable Markdown projection | **Commit** |
-| `.memory-mcp/index.db` | Disposable semantic search index | **Ignore** (rebuildable) |
-| `.memory-mcp/index.db-shm` | SQLite WAL shared memory | **Ignore** |
-| `.memory-mcp/index.db-wal` | SQLite WAL journal | **Ignore** |
-| `.memory-mcp/mnemo` | The executable binary | **Ignore** |
-| `.memory-mcp/models/` | Downloaded embedding model | **Ignore** (redownloads) |
+| `.mnemo/memory_log.jsonl` | Source of truth — append-only audit log | **Commit** |
+| `.mnemo/docs/` | Human-readable Markdown projection | **Commit** |
+| `.mnemo/index.db` | Disposable semantic search index | **Ignore** (rebuildable) |
+| `.mnemo/index.db-shm` | SQLite WAL shared memory | **Ignore** |
+| `.mnemo/index.db-wal` | SQLite WAL journal | **Ignore** |
+| `.mnemo/mnemo` | The executable binary | **Ignore** |
+| `.mnemo/models/` | Downloaded embedding model | **Ignore** (redownloads) |
 
 The JSONL log and Markdown docs are the memory — they get committed and
 reviewed like any other code. The SQLite index and the embedding model are
@@ -51,10 +51,10 @@ go install github.com/Guuzzeji/ai-shared-memory@latest
 ```
 
 You can also keep the binary inside the project instead of on PATH — the
-default location is `.memory-mcp/mnemo` (gitignored):
+default location is `.mnemo/mnemo` (gitignored):
 
 ```sh
-go build -o .memory-mcp/mnemo .
+go build -o .mnemo/mnemo .
 ```
 
 The project-local build yields a binary named `mnemo`; `go install` yields
@@ -64,7 +64,7 @@ recommended flow.
 Verify:
 
 ```sh
-ai-shared-memory --help   # or: ./.memory-mcp/mnemo --help
+ai-shared-memory --help   # or: ./.mnemo/mnemo --help
 ```
 
 ---
@@ -80,15 +80,15 @@ mnemo --init
 This creates:
 
 - `.memory_config.yaml` — edit it to fit your project (categories, key terms)
-- `.memory-mcp/` and `.memory-mcp/docs/`
-- Appends `.memory-mcp/index.db`, `.memory-mcp/index.db-shm`,
-  `.memory-mcp/index.db-wal`, `.memory-mcp/mnemo`, `.memory-mcp/models/`,
+- `.mnemo/` and `.mnemo/docs/`
+- Appends `.mnemo/index.db`, `.mnemo/index.db-shm`,
+  `.mnemo/index.db-wal`, `.mnemo/mnemo`, `.mnemo/models/`,
   `.sisyphus/` to `.gitignore`
 
-If you keep the binary in the project, save it as `.memory-mcp/mnemo` (already
-ignored): `go build -o .memory-mcp/mnemo .` or copy the release binary there.
+If you keep the binary in the project, save it as `.mnemo/mnemo` (already
+ignored): `go build -o .mnemo/mnemo .` or copy the release binary there.
 
-Commit the config, the `.memory-mcp/` directory, and the `.gitignore` changes.
+Commit the config, the `.mnemo/` directory, and the `.gitignore` changes.
 `--init` is idempotent and safe to re-run (it refuses to overwrite an existing
 config).
 
@@ -126,7 +126,7 @@ For a locally built binary, use the absolute path (e.g. `/path/to/mnemo`).
 ## 4. First boot
 
 The first time `mnemo` runs, it downloads the embedding model
-(EmbeddingGemma 300M, ~600 MB) from Hugging Face to `.memory-mcp/models/` and
+(EmbeddingGemma 300M, ~600 MB) from Hugging Face to `.mnemo/models/` and
 builds the search index from your log.
 
 - Model download fails (offline, no disk)? Mnemo still starts in **degraded
@@ -163,13 +163,13 @@ and merge the changes in PRs.
 
 ```yaml
 system:
-  log_file: ".memory-mcp/memory_log.jsonl"   # source of truth
-  docs_dir: ".memory-mcp/docs"               # markdown projection
+  log_file: ".mnemo/memory_log.jsonl"   # source of truth
+  docs_dir: ".mnemo/docs"               # markdown projection
 database:
-  path: ".memory-mcp/index.db"               # disposable vec0 index
+  path: ".mnemo/index.db"               # disposable vec0 index
 embeddings:
   model_repo: "onnx-community/embeddinggemma-300m-ONNX"
-  model_path: ".memory-mcp/models/embeddinggemma-300m.onnx"
+  model_path: ".mnemo/models/embeddinggemma-300m.onnx"
   model_sha256: ""                    # optional pin; empty = skip verify
   dimensions: 768
   search_top_k: 5
@@ -194,7 +194,7 @@ taxonomy:
 
 | Flag | Description |
 |------|-------------|
-| `--init` | Scaffold `.memory_config.yaml` + `.memory-mcp/`, update `.gitignore`, exit |
+| `--init` | Scaffold `.memory_config.yaml` + `.mnemo/`, update `.gitignore`, exit |
 | `--reindex` | Wipe the index and replay the entire log |
 | `--config` | Path to config file (default `.memory_config.yaml`) |
 

@@ -15,7 +15,7 @@ have shared, searchable memory of decisions, architecture, and gotchas. The
 memory lives **inside this repo**:
 
 ```
-.memory-mcp/
+.mnemo/
 ├── memory_log.jsonl    # append-only audit log (source of truth)
 └── docs/               # human-readable memory documents
 ```
@@ -59,15 +59,15 @@ never committed.
   (action `DEPRECATED`) instead of deleting. Deprecated docs become invisible
   to search but stay in history for audit.
 - `create` and `append_section` are the only document operations you may
-  request. Do not hand-edit files in `.memory-mcp/docs/`.
+  request. Do not hand-edit files in `.mnemo/docs/`.
 
 ## What agents must NEVER do
 
-- ❌ Hand-edit `.memory-mcp/memory_log.jsonl` or `.memory-mcp/docs/*` with file
+- ❌ Hand-edit `.mnemo/memory_log.jsonl` or `.mnemo/docs/*` with file
   tools. Memory is written through the MCP tools only — it validates tags,
   sets server timestamps, and keeps log + docs consistent.
-- ❌ Commit `.memory-mcp/index.db`, `.memory-mcp/index.db-shm`,
-  `.memory-mcp/index.db-wal`, `.memory-mcp/models/`, or the `mnemo`
+- ❌ Commit `.mnemo/index.db`, `.mnemo/index.db-shm`,
+  `.mnemo/index.db-wal`, `.mnemo/models/`, or the `mnemo`
   binary. They are gitignored; `git status` must never show them staged.
 - ❌ Skip `semantic_search` before large or risky work.
 - ❌ Delete or rewrite memory docs directly. Use deprecation, or ask a human.
