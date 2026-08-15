@@ -11,8 +11,8 @@ import (
 
 	"errors"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/embeddings"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/embeddings"
+	"github.com/Guuzzeji/mnemo/internal/index"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -30,13 +30,13 @@ func (f *fakeEmbedder) Embed(text string) ([]float32, error) {
 func (f *fakeEmbedder) CountTokens(text string) int { return len(text) / 4 }
 
 const fixtureConfig = `system:
-  log_file: .memory-mcp/memory_log.jsonl
-  docs_dir: .memory-mcp/docs
+  log_file: .mnemo/memory_log.jsonl
+  docs_dir: .mnemo/docs
 database:
-  path: .memory-mcp/index.db
+  path: .mnemo/index.db
 embeddings:
   model_repo: onnx-community/embeddinggemma-300m-ONNX
-  model_path: .memory-mcp/models/embeddinggemma-300m.onnx
+  model_path: .mnemo/models/embeddinggemma-300m.onnx
   dimensions: 768
   search_top_k: 5
   chunking:
@@ -56,19 +56,19 @@ func fixture(t *testing.T, withDoc bool) string {
 	if err := os.WriteFile(filepath.Join(dir, ".memory_config.yaml"), []byte(fixtureConfig), 0o644); err != nil {
 		t.Fatal(err)
 	}
-	for _, d := range []string{".memory-mcp/docs", ".memory-mcp/models"} {
+	for _, d := range []string{".mnemo/docs", ".mnemo/models"} {
 		if err := os.MkdirAll(filepath.Join(dir, d), 0o755); err != nil {
 			t.Fatal(err)
 		}
 	}
 	for _, f := range []string{"tokenizer.json", "config.json", "model.onnx", "model.onnx_data"} {
-		if err := os.WriteFile(filepath.Join(dir, ".memory-mcp/models", f), []byte("{}"), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, ".mnemo/models", f), []byte("{}"), 0o644); err != nil {
 			t.Fatal(err)
 		}
 	}
 	if withDoc {
 		entry := `{"log_id":"01900000-0000-7000-8000-000000000001","timestamp":"2026-08-15T00:00:00Z","author":"test","action":"ADDED","target_docs":["auth-flow"],"tags":["backend"],"summary":"add auth flow doc"}`
-		if err := os.WriteFile(filepath.Join(dir, ".memory-mcp/memory_log.jsonl"), []byte(entry+"\n"), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, ".mnemo/memory_log.jsonl"), []byte(entry+"\n"), 0o644); err != nil {
 			t.Fatal(err)
 		}
 		doc := `---
@@ -82,7 +82,7 @@ Authentication flow for the API.
 ## Key Decisions
 Use JWT.
 `
-		if err := os.WriteFile(filepath.Join(dir, ".memory-mcp/docs/auth-flow.md"), []byte(doc), 0o644); err != nil {
+		if err := os.WriteFile(filepath.Join(dir, ".mnemo/docs/auth-flow.md"), []byte(doc), 0o644); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -130,7 +130,7 @@ func TestRunReindex(t *testing.T) {
 	if code != 0 {
 		t.Fatalf("want exit 0, got %d: %s", code, errb.String())
 	}
-	idx, err := index.Open(filepath.Join(dir, ".memory-mcp/index.db"), 768)
+	idx, err := index.Open(filepath.Join(dir, ".mnemo/index.db"), 768)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -160,7 +160,7 @@ func TestRunNormalBoot(t *testing.T) {
 	if code != 0 {
 		t.Fatalf("want exit 0, got %d: %s", code, errb.String())
 	}
-	idx, err := index.Open(filepath.Join(dir, ".memory-mcp/index.db"), 768)
+	idx, err := index.Open(filepath.Join(dir, ".mnemo/index.db"), 768)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -18,11 +18,11 @@ Do not touch anything until the human answers these. Especially important for
 1. **New project or existing one?** Existing: check for an existing
    `.memory_config.yaml`, `.mcp.json`, and `.gitignore` conventions first —
    merge, never overwrite.
-2. **How should memory be saved?** Default Mnemo layout (`.memory-mcp/` +
+2. **How should memory be saved?** Default Mnemo layout (`.mnemo/` +
    `.memory_config.yaml`) or custom paths? Which categories fit the project?
 3. **What categories/tags should be allowed?** Propose defaults, get approval —
    never invent tags.
-4. **Binary location?** Default: saved at `.memory-mcp/mnemo` inside the
+4. **Binary location?** Default: saved at `.mnemo/mnemo` inside the
    project (gitignored). Alternative: on PATH.
 5. **Commit strategy?** Separate memory commits, or bundled with feature work?
 6. **Existing project extras:** where should the `mnemo` entry merge into
@@ -40,7 +40,7 @@ In the target project you will create:
 ```
 project/
 ├── .memory_config.yaml    # Mnemo config — COMMIT ME
-├── .memory-mcp/           # memory directory
+├── .mnemo/           # memory directory
 │   ├── memory_log.jsonl   # append-only audit log — COMMIT ME
 │   ├── docs/              # markdown memory docs — COMMIT ME
 │   ├── index.db           # semantic index — IGNORED (rebuildable)
@@ -70,8 +70,8 @@ Check, in order:
 ## Step A — Install the binary
 
 ```sh
-# Installs as the binary "ai-shared-memory" (module base name)
-go install github.com/Guuzzeji/ai-shared-memory@latest
+# Installs as the binary "mnemo" (module base name)
+go install github.com/Guuzzeji/mnemo@latest
 ```
 
 If `go install` fails (no network, module proxy blocked), report it and stop —
@@ -80,12 +80,12 @@ do not attempt a workaround build.
 Verify the binary runs:
 
 ```sh
-ai-shared-memory --help
+mnemo --help
 ```
 
-If `ai-shared-memory` is not on your PATH after install (common with custom
+If `mnemo` is not on your PATH after install (common with custom
 GOPATH), note the install path from `go env GOPATH` and use that absolute path
-in step D. Alternative: the project-local build `go build -o .memory-mcp/mnemo .`
+in step D. Alternative: the project-local build `go build -o .mnemo/mnemo .`
 keeps the `mnemo` name.
 
 ## Step B — Initialize the target project
@@ -95,24 +95,24 @@ cd <project-root>
 mnemo --init
 ```
 
-`--init` creates `.memory_config.yaml`, `.memory-mcp/` + `.memory-mcp/docs/`,
+`--init` creates `.memory_config.yaml`, `.mnemo/` + `.mnemo/docs/`,
 and appends these lines to `.gitignore`:
 
 ```
-.memory-mcp/index.db
-.memory-mcp/index.db-shm
-.memory-mcp/index.db-wal
-.memory-mcp/mnemo
-.memory-mcp/models/
+.mnemo/index.db
+.mnemo/index.db-shm
+.mnemo/index.db-wal
+.mnemo/mnemo
+.mnemo/models/
 .sisyphus/
 ```
 
 **Verify the scaffold:**
 
 ```sh
-ls -la .memory-mcp/          # must show docs/ (and later log + db)
-cat .memory_config.yaml      # paths must point into .memory-mcp/
-grep -E "memory-mcp|mnemo" .gitignore   # ignore entries present
+ls -la .mnemo/          # must show docs/ (and later log + db)
+cat .memory_config.yaml      # paths must point into .mnemo/
+grep -E "mnemo" .gitignore   # ignore entries present
 ```
 
 If the project **already has** `.memory_config.yaml`, `--init` will refuse.
@@ -178,7 +178,7 @@ cp <path-to-mnemo-repo>/AGENT-TEMPLATE.md <project-root>/agent.md
 2. Confirm the index was created:
 
    ```sh
-   ls .memory-mcp/index.db
+   ls .mnemo/index.db
    ```
 
 3. If you have MCP tool access in this session, confirm the tools are
@@ -190,11 +190,11 @@ cp <path-to-mnemo-repo>/AGENT-TEMPLATE.md <project-root>/agent.md
 Stage and commit (following the project's existing commit style):
 
 ```sh
-git add .memory_config.yaml .memory-mcp .gitignore .mcp.json agent.md
+git add .memory_config.yaml .mnemo .gitignore .mcp.json agent.md
 git commit -m "feat: add Mnemo AI memory system"
 ```
 
-**Do NOT `git add`** `.memory-mcp/index.db` or `.memory-mcp/models/` — verify
+**Do NOT `git add`** `.mnemo/index.db` or `.mnemo/models/` — verify
 `git status` shows them untracked/ignored before committing.
 
 ---
@@ -203,9 +203,9 @@ git commit -m "feat: add Mnemo AI memory system"
 
 - **Everything local.** No cloud services, no external memory stores.
 - **Binaries stay out of git.** `index.db`, `index.db-shm`, `index.db-wal`,
-  `models/`, and the `mnemo` binary (`.memory-mcp/mnemo`) are ignored. If
+  `models/`, and the `mnemo` binary (`.mnemo/mnemo`) are ignored. If
   `git status` shows them as staged, unstage.
-- **Do not edit `.memory-mcp/` files by hand** during setup beyond what this
+- **Do not edit `.mnemo/` files by hand** during setup beyond what this
   guide says. The log and docs are written by the Mnemo MCP tools at runtime.
 - **Do not invent tags** in the config; only use categories the human approves.
 - **If anything in steps A–F fails**, stop and report the exact error. Do not

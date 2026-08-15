@@ -13,10 +13,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/chunking"
-	"github.com/Guuzzeji/ai-shared-memory/internal/docs"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
-	"github.com/Guuzzeji/ai-shared-memory/internal/logstore"
+	"github.com/Guuzzeji/mnemo/internal/chunking"
+	"github.com/Guuzzeji/mnemo/internal/docs"
+	"github.com/Guuzzeji/mnemo/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/logstore"
 )
 
 const testDim = 8

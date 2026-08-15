@@ -9,13 +9,13 @@ import (
 
 const validYAML = `
 system:
-  log_file: ".memory-mcp/memory_log.jsonl"
-  docs_dir: ".memory-mcp/docs"
+  log_file: ".mnemo/memory_log.jsonl"
+  docs_dir: ".mnemo/docs"
 database:
-  path: ".memory-mcp/index.db"
+  path: ".mnemo/index.db"
 embeddings:
   model_repo: "onnx-community/embeddinggemma-300m-ONNX"
-  model_path: ".memory-mcp/models/embeddinggemma-300m.onnx"
+  model_path: ".mnemo/models/embeddinggemma-300m.onnx"
   dimensions: 768
   search_top_k: 5
   chunking:
@@ -49,19 +49,19 @@ func TestLoadValidConfig(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Load() unexpected error: %v", err)
 	}
-	if cfg.System.LogFile != ".memory-mcp/memory_log.jsonl" {
-		t.Errorf("LogFile = %q, want %q", cfg.System.LogFile, ".memory-mcp/memory_log.jsonl")
+	if cfg.System.LogFile != ".mnemo/memory_log.jsonl" {
+		t.Errorf("LogFile = %q, want %q", cfg.System.LogFile, ".mnemo/memory_log.jsonl")
 	}
-	if cfg.System.DocsDir != ".memory-mcp/docs" {
-		t.Errorf("DocsDir = %q, want %q", cfg.System.DocsDir, ".memory-mcp/docs")
+	if cfg.System.DocsDir != ".mnemo/docs" {
+		t.Errorf("DocsDir = %q, want %q", cfg.System.DocsDir, ".mnemo/docs")
 	}
-	if cfg.Database.Path != ".memory-mcp/index.db" {
-		t.Errorf("Database.Path = %q, want %q", cfg.Database.Path, ".memory-mcp/index.db")
+	if cfg.Database.Path != ".mnemo/index.db" {
+		t.Errorf("Database.Path = %q, want %q", cfg.Database.Path, ".mnemo/index.db")
 	}
 	if cfg.Embeddings.ModelRepo != "onnx-community/embeddinggemma-300m-ONNX" {
 		t.Errorf("ModelRepo = %q", cfg.Embeddings.ModelRepo)
 	}
-	if cfg.Embeddings.ModelPath != ".memory-mcp/models/embeddinggemma-300m.onnx" {
+	if cfg.Embeddings.ModelPath != ".mnemo/models/embeddinggemma-300m.onnx" {
 		t.Errorf("ModelPath = %q", cfg.Embeddings.ModelPath)
 	}
 	if cfg.Embeddings.Dimensions != 768 {
@@ -156,8 +156,8 @@ func TestResolvePath(t *testing.T) {
 	}
 	dir := filepath.Dir(path)
 
-	got := cfg.ResolvePath(".memory-mcp/memory_log.jsonl")
-	want := filepath.Join(dir, ".memory-mcp/memory_log.jsonl")
+	got := cfg.ResolvePath(".mnemo/memory_log.jsonl")
+	want := filepath.Join(dir, ".mnemo/memory_log.jsonl")
 	if got != want {
 		t.Errorf("ResolvePath() = %q, want %q", got, want)
 	}

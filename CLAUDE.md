@@ -9,7 +9,7 @@ This repo uses **Mnemo**, a Git-native MCP memory server. Memory is shared,
 searchable, and lives **inside this repo**:
 
 ```
-.memory-mcp/
+.mnemo/
 ├── memory_log.jsonl    # append-only audit log (source of truth)
 └── docs/               # human-readable memory documents
 ```
@@ -47,15 +47,15 @@ Committed and **reviewed in PRs like code**. Binary artifacts (`index.db`,
 - Obsolete: mark `status: deprecated` via `append_memory` (action `DEPRECATED`)
   instead of deleting. Deprecated docs vanish from search, stay for audit.
 - Only `create` and `append_section` doc ops. Do not hand-edit
-  `.memory-mcp/docs/`.
+  `.mnemo/docs/`.
 
 ## Never do
 
-- ❌ Hand-edit `.memory-mcp/memory_log.jsonl` or `.memory-mcp/docs/*` with file
+- ❌ Hand-edit `.mnemo/memory_log.jsonl` or `.mnemo/docs/*` with file
   tools. Write through MCP tools only (validates tags, sets timestamps, keeps
   log + docs consistent).
-- ❌ Commit `.memory-mcp/index.db`, `.memory-mcp/index.db-shm`,
-  `.memory-mcp/index.db-wal`, `.memory-mcp/models/`, or the `mnemo`
+- ❌ Commit `.mnemo/index.db`, `.mnemo/index.db-shm`,
+  `.mnemo/index.db-wal`, `.mnemo/models/`, or the `mnemo`
   binary — gitignored; `git status` must never show them staged.
 - ❌ Skip `semantic_search` before large or risky work.
 - ❌ Delete/rewrite memory docs directly. Deprecate, or ask a human.
@@ -69,6 +69,29 @@ Written for humans reviewing PRs and agents searching later:
   re-litigating it.
 - `target_docs` / `affected_files`: name the doc and files involved.
 
+## Commit conventions (semantic versioning)
+
+Every commit message MUST follow Conventional Commits: `type(scope): subject`
+(scope optional). semantic-release derives the next version and creates the
+GitHub release from these messages on every push to `main` — wrong prefixes
+mean wrong versions or no release.
+
+| Type | Version bump |
+|------|--------------|
+| `feat` | minor (new feature) |
+| `fix` | patch (bug fix) |
+| `BREAKING CHANGE:` footer or `!` after type/scope | major |
+| `chore`, `docs`, `refactor`, `test`, `ci`, `perf`, `build`, `style` | no release |
+
+Examples:
+
+- `feat: add tag filter to semantic_search`
+- `fix(mcp): handle empty query in append_memory`
+- `feat!: drop Go 1.25 support` (breaking change)
+- `chore: bump goreleaser action` (no release)
+
+A `BREAKING CHANGE:` footer in the commit body also triggers a major bump.
+
 ## If Mnemo is unavailable
 
 - Server not running → tools may be absent. Proceed, note in your report that
@@ -78,7 +101,7 @@ Written for humans reviewing PRs and agents searching later:
 
 ## Project config
 
-- **Project:** Mnemo (ai-shared-memory)
+- **Project:** Mnemo (mnemo)
 - **Allowed categories:** `[memory, mcp, embeddings, index, cli, build]`
 - **Stack:** Go single-binary MCP memory server. EmbeddingGemma ONNX via hugot
   pure-Go (768-dim), SQLite vec0 index (`modernc.org/sqlite/vec`), JSONL log,

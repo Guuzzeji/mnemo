@@ -10,14 +10,14 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/chunking"
-	"github.com/Guuzzeji/ai-shared-memory/internal/config"
-	"github.com/Guuzzeji/ai-shared-memory/internal/docs"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
-	"github.com/Guuzzeji/ai-shared-memory/internal/logstore"
-	"github.com/Guuzzeji/ai-shared-memory/internal/mcp"
-	"github.com/Guuzzeji/ai-shared-memory/internal/sync"
-	"github.com/Guuzzeji/ai-shared-memory/internal/taxonomy"
+	"github.com/Guuzzeji/mnemo/internal/chunking"
+	"github.com/Guuzzeji/mnemo/internal/config"
+	"github.com/Guuzzeji/mnemo/internal/docs"
+	"github.com/Guuzzeji/mnemo/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/logstore"
+	"github.com/Guuzzeji/mnemo/internal/mcp"
+	"github.com/Guuzzeji/mnemo/internal/sync"
+	"github.com/Guuzzeji/mnemo/internal/taxonomy"
 	sdk "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 

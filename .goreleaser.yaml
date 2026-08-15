@@ -25,4 +25,4 @@ checksum:
 release:
   github:
     owner: Guuzzeji
-    name: ai-shared-memory
+    name: mnemo

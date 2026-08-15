@@ -8,13 +8,13 @@ import (
 )
 
 const defaultConfig = `system:
-  log_file: ".memory-mcp/memory_log.jsonl"
-  docs_dir: ".memory-mcp/docs"
+  log_file: ".mnemo/memory_log.jsonl"
+  docs_dir: ".mnemo/docs"
 database:
-  path: ".memory-mcp/index.db"
+  path: ".mnemo/index.db"
 embeddings:
   model_repo: "onnx-community/embeddinggemma-300m-ONNX"
-  model_path: ".memory-mcp/models/embeddinggemma-300m.onnx"
+  model_path: ".mnemo/models/embeddinggemma-300m.onnx"
   dimensions: 768
   search_top_k: 5
   chunking:
@@ -33,12 +33,12 @@ taxonomy:
 `
 
 var gitignoreEntries = []string{
-	".memory-mcp/index.db",
-	".memory-mcp/index.db-shm",
-	".memory-mcp/index.db-wal",
-	".memory-mcp/models/",
-	".memory-mcp/mnemo",
-	".memory-mcp/server.log",
+	".mnemo/index.db",
+	".mnemo/index.db-shm",
+	".mnemo/index.db-wal",
+	".mnemo/models/",
+	".mnemo/mnemo",
+	".mnemo/server.log",
 	".sisyphus/",
 }
 
@@ -53,7 +53,7 @@ func Run(dir string) error {
 		return fmt.Errorf("writing config: %w", err)
 	}
 
-	for _, d := range []string{".memory-mcp", ".memory-mcp/docs"} {
+	for _, d := range []string{".mnemo", ".mnemo/docs"} {
 		if err := os.MkdirAll(filepath.Join(dir, d), 0755); err != nil {
 			return fmt.Errorf("creating %s: %w", d, err)
 		}

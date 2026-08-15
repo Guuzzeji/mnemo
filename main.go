@@ -12,16 +12,16 @@ import (
 	"path/filepath"
 	"syscall"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/chunking"
-	"github.com/Guuzzeji/ai-shared-memory/internal/config"
-	"github.com/Guuzzeji/ai-shared-memory/internal/docs"
-	"github.com/Guuzzeji/ai-shared-memory/internal/embeddings"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
-	"github.com/Guuzzeji/ai-shared-memory/internal/initcmd"
-	"github.com/Guuzzeji/ai-shared-memory/internal/logstore"
-	"github.com/Guuzzeji/ai-shared-memory/internal/mcp"
-	"github.com/Guuzzeji/ai-shared-memory/internal/sync"
-	"github.com/Guuzzeji/ai-shared-memory/internal/taxonomy"
+	"github.com/Guuzzeji/mnemo/internal/chunking"
+	"github.com/Guuzzeji/mnemo/internal/config"
+	"github.com/Guuzzeji/mnemo/internal/docs"
+	"github.com/Guuzzeji/mnemo/internal/embeddings"
+	"github.com/Guuzzeji/mnemo/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/initcmd"
+	"github.com/Guuzzeji/mnemo/internal/logstore"
+	"github.com/Guuzzeji/mnemo/internal/mcp"
+	"github.com/Guuzzeji/mnemo/internal/sync"
+	"github.com/Guuzzeji/mnemo/internal/taxonomy"
 	sdk "github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
@@ -37,7 +37,7 @@ func main() {
 func run(args []string, stdout, stderr io.Writer) int {
 	fs := flag.NewFlagSet("mnemo", flag.ContinueOnError)
 	fs.SetOutput(stderr)
-	initFlag := fs.Bool("init", false, "scaffold .memory_config.yaml and .memory-mcp/ directory, then exit")
+	initFlag := fs.Bool("init", false, "scaffold .memory_config.yaml and .mnemo/ directory, then exit")
 	reindex := fs.Bool("reindex", false, "wipe the index and replay the entire log")
 	configPath := fs.String("config", ".memory_config.yaml", "path to config file")
 	if err := fs.Parse(args); err != nil {

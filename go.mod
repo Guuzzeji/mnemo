@@ -1,4 +1,4 @@
-module github.com/Guuzzeji/ai-shared-memory
+module github.com/Guuzzeji/mnemo
 
 go 1.26.5
 
