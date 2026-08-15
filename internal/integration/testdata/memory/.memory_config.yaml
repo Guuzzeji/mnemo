@@ -1,0 +1,19 @@
+system:
+  log_file: memory_log.jsonl
+  docs_dir: docs
+database:
+  path: index.db
+embeddings:
+  model_repo: onnx-community/embeddinggemma-300m-ONNX
+  model_path: models/embeddinggemma-300m.onnx
+  dimensions: 768
+  search_top_k: 10
+  chunking:
+    split_on: ["## "]
+    max_chunk_tokens: 500
+    overlap_tokens: 50
+taxonomy:
+  allowed_categories: [backend, frontend, devops, architecture]
+  key_terms:
+    authentication: [auth, jwt, session, login]
+    database: [db, sql, sqlite, schema]

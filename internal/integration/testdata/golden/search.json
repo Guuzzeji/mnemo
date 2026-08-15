@@ -1,0 +1,34 @@
+{
+  "results": [
+    {
+      "doc_id": "auth-flow",
+      "chunk_id": "057efa00a4c0e48b54f75b3a6a2183278792c17f37c6134ef26e58a7ecd25ba2",
+      "heading": "## Summary"
+    },
+    {
+      "doc_id": "db-schema",
+      "chunk_id": "1cdf291cda99f74a27b2400e4e55321f3e244194803126ad77ef4d5c32092aed",
+      "heading": ""
+    },
+    {
+      "doc_id": "db-schema",
+      "chunk_id": "8300ee8b8e33238e108d297672bfbdf6f619615ffab44ade6acc273938e426f0",
+      "heading": "## Key Decisions"
+    },
+    {
+      "doc_id": "auth-flow",
+      "chunk_id": "95dbe92726cbc9d9daada40d1373d0921f3007d355d56eae5dfc56bf2b8018a5",
+      "heading": ""
+    },
+    {
+      "doc_id": "auth-flow",
+      "chunk_id": "abc3f09fdf623e4e8fb5341e05d8bae1916be63693bde03b75dcba7b1c03e518",
+      "heading": "## Key Decisions"
+    },
+    {
+      "doc_id": "db-schema",
+      "chunk_id": "b26f7dee4975c5433707bd5bb8cd77bf0df0fbeb5a6285442de3a49373734f20",
+      "heading": "## Summary"
+    }
+  ]
+}
