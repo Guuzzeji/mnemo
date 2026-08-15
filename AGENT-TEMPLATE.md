@@ -2,7 +2,8 @@
 
 > This file tells every AI agent working in this repository how to use the
 > project's shared memory. It is managed by the team — update it when the
-> workflow changes. Copy into your project root as `agent.md` (or `AGENTS.md`
+> workflow changes. The source file in the Mnemo repo is `AGENT-TEMPLATE.md`;
+> copy it into your project root as `agent.md` (or `AGENTS.md`
 > if your tooling auto-loads that name).
 
 ---
@@ -20,8 +21,9 @@ memory lives **inside this repo**:
 ```
 
 The memory is committed and **reviewed in PRs like code** — write it so a human
-teammate can understand it without you. Binary artifacts (`index.db`,
-`models/`) are gitignored and never committed.
+teammate can understand it without you. Binary artifacts (`index.db` and its
+`-shm`/`-wal` sidecars, `models/`, the `mnemo` binary) are gitignored and
+never committed.
 
 ## Available MCP tools
 
@@ -64,7 +66,8 @@ teammate can understand it without you. Binary artifacts (`index.db`,
 - ❌ Hand-edit `.memory-mcp/memory_log.jsonl` or `.memory-mcp/docs/*` with file
   tools. Memory is written through the MCP tools only — it validates tags,
   sets server timestamps, and keeps log + docs consistent.
-- ❌ Commit `.memory-mcp/index.db`, `.memory-mcp/models/`, or the `mnemo`
+- ❌ Commit `.memory-mcp/index.db`, `.memory-mcp/index.db-shm`,
+  `.memory-mcp/index.db-wal`, `.memory-mcp/models/`, or the `mnemo`
   binary. They are gitignored; `git status` must never show them staged.
 - ❌ Skip `semantic_search` before large or risky work.
 - ❌ Delete or rewrite memory docs directly. Use deprecation, or ask a human.
