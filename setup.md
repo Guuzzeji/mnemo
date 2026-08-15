@@ -35,7 +35,7 @@ appends the ignore entries to your `.gitignore` for you.
 ## Prerequisites
 
 - **Go 1.26+** (to build from source), or a prebuilt binary from the
-  [releases page](https://github.com/Guuzzeji/ai-shared-memory/releases)
+  [releases page](https://github.com/Guuzzeji/mnemo/releases)
 - An MCP-capable AI client (Claude Code, Cursor, VS Code, Roo, etc.)
 - ~600 MB free disk for the embedding model (downloaded on first boot)
 
@@ -44,8 +44,8 @@ appends the ignore entries to your `.gitignore` for you.
 ## 1. Install
 
 ```sh
-# From source (installs as the binary "ai-shared-memory")
-go install github.com/Guuzzeji/ai-shared-memory@latest
+# From source (installs as the binary "mnemo")
+go install github.com/Guuzzeji/mnemo@latest
 
 # Or download the release binary for your OS/arch and put it on your PATH
 ```
@@ -58,13 +58,13 @@ go build -o .mnemo/mnemo .
 ```
 
 The project-local build yields a binary named `mnemo`; `go install` yields
-`ai-shared-memory` (the module base name). The project-local build is the
+`mnemo` (the module base name). The project-local build is the
 recommended flow.
 
 Verify:
 
 ```sh
-ai-shared-memory --help   # or: ./.mnemo/mnemo --help
+mnemo --help   # or: ./.mnemo/mnemo --help
 ```
 
 ---

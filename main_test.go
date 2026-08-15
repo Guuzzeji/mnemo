@@ -11,8 +11,8 @@ import (
 
 	"errors"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/embeddings"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/embeddings"
+	"github.com/Guuzzeji/mnemo/internal/index"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 

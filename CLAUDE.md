@@ -101,7 +101,7 @@ A `BREAKING CHANGE:` footer in the commit body also triggers a major bump.
 
 ## Project config
 
-- **Project:** Mnemo (ai-shared-memory)
+- **Project:** Mnemo (mnemo)
 - **Allowed categories:** `[memory, mcp, embeddings, index, cli, build]`
 - **Stack:** Go single-binary MCP memory server. EmbeddingGemma ONNX via hugot
   pure-Go (768-dim), SQLite vec0 index (`modernc.org/sqlite/vec`), JSONL log,

@@ -12,11 +12,11 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/chunking"
-	"github.com/Guuzzeji/ai-shared-memory/internal/docs"
-	"github.com/Guuzzeji/ai-shared-memory/internal/embeddings"
-	"github.com/Guuzzeji/ai-shared-memory/internal/index"
-	"github.com/Guuzzeji/ai-shared-memory/internal/logstore"
+	"github.com/Guuzzeji/mnemo/internal/chunking"
+	"github.com/Guuzzeji/mnemo/internal/docs"
+	"github.com/Guuzzeji/mnemo/internal/embeddings"
+	"github.com/Guuzzeji/mnemo/internal/index"
+	"github.com/Guuzzeji/mnemo/internal/logstore"
 )
 
 // Syncer reconciles the log + docs into the index.

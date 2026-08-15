@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Guuzzeji/ai-shared-memory/internal/config"
+	"github.com/Guuzzeji/mnemo/internal/config"
 )
 
 func TestRun_CreatesConfigFile(t *testing.T) {

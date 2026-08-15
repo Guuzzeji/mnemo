@@ -93,7 +93,7 @@ Memory is written for humans who review PRs and for agents who search later:
 
 ## Project-specific configuration
 
-- **Project:** `Mnemo` (ai-shared-memory)
+- **Project:** `Mnemo` (mnemo)
 - **Allowed categories:** `[memory, mcp, embeddings, index, cli, build]` (from
   `.memory_config.yaml`)
 - **Anything else agents must know:** Mnemo is a Go single-binary MCP memory

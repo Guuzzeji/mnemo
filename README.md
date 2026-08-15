@@ -34,8 +34,8 @@ go build -o .mnemo/mnemo .
 .mnemo/mnemo
 ```
 
-Prefer a release binary or `go install github.com/Guuzzeji/ai-shared-memory@latest`
-(installs as `ai-shared-memory`)? See [setup.md](setup.md).
+Prefer a release binary or `go install github.com/Guuzzeji/mnemo@latest`
+(installs as `mnemo`)? See [setup.md](setup.md).
 
 On first boot the embedding model downloads from Hugging Face to
 `.mnemo/models/`. If the model is unavailable the server starts in

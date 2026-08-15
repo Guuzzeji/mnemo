@@ -70,8 +70,8 @@ Check, in order:
 ## Step A — Install the binary
 
 ```sh
-# Installs as the binary "ai-shared-memory" (module base name)
-go install github.com/Guuzzeji/ai-shared-memory@latest
+# Installs as the binary "mnemo" (module base name)
+go install github.com/Guuzzeji/mnemo@latest
 ```
 
 If `go install` fails (no network, module proxy blocked), report it and stop —
@@ -80,10 +80,10 @@ do not attempt a workaround build.
 Verify the binary runs:
 
 ```sh
-ai-shared-memory --help
+mnemo --help
 ```
 
-If `ai-shared-memory` is not on your PATH after install (common with custom
+If `mnemo` is not on your PATH after install (common with custom
 GOPATH), note the install path from `go env GOPATH` and use that absolute path
 in step D. Alternative: the project-local build `go build -o .mnemo/mnemo .`
 keeps the `mnemo` name.
