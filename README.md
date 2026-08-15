@@ -1,4 +1,10 @@
-# Mnemo
+<p align="center">
+
+<img src="./assets/banner.jpg">
+
+</p>
+
+<h1 align="center">Mnemo</h1>
 
 Git-native memory for AI agents. A single-binary MCP server that gives every
 agent working in your repo a shared, searchable memory of decisions — stored
@@ -38,11 +44,11 @@ degraded mode: `semantic_search` reports the index unavailable, while
 
 ## Documentation
 
-| Doc                                          | Audience                                                       |
-| -------------------------------------------- | -------------------------------------------------------------- |
-| [`setup.md`](setup.md)                       | Humans — full setup, config reference, team workflow           |
-| [`AGENT-SETUP.md`](AGENT-SETUP.md)           | AI agents — setup a project autonomously                       |
-| [`AGENT-TEMPLATE.md`](AGENT-TEMPLATE.md)     | Teams — copy into a project so all agents use memory correctly |
+| Doc                                      | Audience                                                       |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| [`setup.md`](setup.md)                   | Humans — full setup, config reference, team workflow           |
+| [`AGENT-SETUP.md`](AGENT-SETUP.md)       | AI agents — setup a project autonomously                       |
+| [`AGENT-TEMPLATE.md`](AGENT-TEMPLATE.md) | Teams — copy into a project so all agents use memory correctly |
 
 ## How memory is stored
 
@@ -68,6 +74,7 @@ degraded mode: `semantic_search` reports the index unavailable, while
 | `append_memory`   | Normalize/validate tags, server-set timestamps, append log, apply `create`/`append_section` markdown ops, inline reindex, deprecation flow |
 | `get_memory`      | Read a memory doc by ID                                                                                                                    |
 | `list_memories`   | List memory docs                                                                                                                           |
+| `reindex`         | Wipe the semantic index and rebuild it by replaying the entire memory log                                                                  |
 
 Logging goes to a local file (`.memory-mcp/server.log`), never to MCP — the
 MCP logging feature is deprecated in the 2026-07-28 spec and stdout is

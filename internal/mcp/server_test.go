@@ -398,6 +398,38 @@ func TestGetMemory(t *testing.T) {
 	}
 }
 
+func TestReindexTool(t *testing.T) {
+	e := newEnv(t)
+	e.addDoc(t, "auth-flow", []string{"backend"}, "active")
+	e.addDoc(t, "db-flow", []string{"backend"}, "active")
+
+	_, out, err := e.h.reindexMemory(context.Background(), nil, reindexInput{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if out.IndexedDocs != 2 {
+		t.Fatalf("want 2 indexed docs, got %d", out.IndexedDocs)
+	}
+	_, sOut, err := e.h.semanticSearch(context.Background(), nil, semanticSearchInput{Query: "auth-flow content here"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(sOut.Results) == 0 {
+		t.Fatal("search should still return results after reindex")
+	}
+}
+
+func TestReindexToolDegradedMode(t *testing.T) {
+	e := newEnv(t)
+	e.h.deps.Embedder = nil
+	e.h.deps.Syncer = nil
+
+	_, _, err := e.h.reindexMemory(context.Background(), nil, reindexInput{})
+	if err == nil || !strings.Contains(err.Error(), "index unavailable") {
+		t.Fatalf("want index unavailable error, got: %v", err)
+	}
+}
+
 func TestListMemories(t *testing.T) {
 	e := newEnv(t)
 	e.addDoc(t, "auth-flow", []string{"backend"}, "active")

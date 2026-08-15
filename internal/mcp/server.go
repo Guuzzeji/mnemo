@@ -54,6 +54,10 @@ func NewServer(deps Deps) (*mcp.Server, error) {
 		Name:        "list_memories",
 		Description: "List doc IDs, paths, tags, and status, optionally filtered by tags and status.",
 	}, h.listMemories)
+	mcp.AddTool(s, &mcp.Tool{
+		Name:        "reindex",
+		Description: "Wipe the semantic index and rebuild it by replaying the entire memory log. Use when the index is stale, corrupted, or was built with a different embedding model.",
+	}, h.reindexMemory)
 
 	return s, nil
 }
@@ -270,6 +274,26 @@ func (s *server) listMemories(_ context.Context, _ *mcp.CallToolRequest, in list
 		})
 	}
 	return nil, out, nil
+}
+
+type reindexInput struct{}
+
+type reindexOutput struct {
+	IndexedDocs int `json:"indexed_docs"`
+}
+
+func (s *server) reindexMemory(ctx context.Context, _ *mcp.CallToolRequest, _ reindexInput) (*mcp.CallToolResult, reindexOutput, error) {
+	if s.deps.Embedder == nil || s.deps.Syncer == nil {
+		return nil, reindexOutput{}, fmt.Errorf("index unavailable: embedding model not loaded")
+	}
+	if err := s.deps.Syncer.Reindex(ctx); err != nil {
+		return nil, reindexOutput{}, fmt.Errorf("reindex: %w", err)
+	}
+	docs, err := s.deps.Index.ListDocs()
+	if err != nil {
+		docs = nil
+	}
+	return nil, reindexOutput{IndexedDocs: len(docs)}, nil
 }
 
 func tagsSubset(want, have []string) bool {
