@@ -1,0 +1,7 @@
+# Local build artifact
+/mnemo
+
+# Mnemo runtime binaries (rebuildable; keep them out of the repo)
+.memory-mcp/index.db
+.memory-mcp/models/
+.memory-mcp/server.log

@@ -1,0 +1,29 @@
+system:
+  log_file: ".memory-mcp/memory_log.jsonl"
+  docs_dir: ".memory-mcp/docs"
+database:
+  path: ".memory-mcp/index.db"
+embeddings:
+  model_repo: "onnx-community/embeddinggemma-300m-ONNX"
+  model_path: ".memory-mcp/models/embeddinggemma-300m.onnx"
+  dimensions: 768
+  search_top_k: 5
+  chunking:
+    split_on: ["## "]
+    max_chunk_tokens: 500
+    overlap_tokens: 50
+taxonomy:
+  allowed_categories:
+    - memory
+    - mcp
+    - embeddings
+    - index
+    - cli
+    - build
+  key_terms:
+    "memory": ["mnemo", "log", "jsonl", "memory_log", "docs", "document"]
+    "mcp": ["server", "tools", "stdio", "protocol", "tool"]
+    "embeddings": ["model", "onnx", "embeddinggemma", "vector", "semantic"]
+    "index": ["sqlite", "vec0", "search", "reindex"]
+    "cli": ["init", "config", "flag", "command"]
+    "build": ["go", "compile", "goreleaser", "cgo", "release"]
