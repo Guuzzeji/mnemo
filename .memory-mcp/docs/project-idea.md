@@ -246,3 +246,5 @@ status: "active"                # active | deprecated
 | IDs | UUIDv7 `log_id`; `author` = git user.name; chunks = `sha256(doc_id+chunk_index)` |
 | Sync | position-based (`last_synced_log_id`), never timestamps; `--reindex` for full rebuild |
 | Taxonomy | `allowed_categories` = closed write-time tag set; `key_terms` = query-time synonym expansion |
+## ## Reindex MCP Tool
+Added `reindex` MCP tool (2026-08-15): wipes the semantic index and replays the entire log — the agent-facing equivalent of the CLI `--reindex` flag. Returns `indexed_docs` count. Errors with "index unavailable: embedding model not loaded" in degraded mode. Full tool list is now: `semantic_search`, `append_memory`, `get_memory`, `list_memories`, `reindex`.
